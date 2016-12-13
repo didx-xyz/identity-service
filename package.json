@@ -1,0 +1,35 @@
+{
+  "name": "consent-ethereum-identity-service",
+  "version": "0.2.0",
+  "private": true,
+  "description": "The Ethereum Identity Service smart contract stores registered DIDs and matching DDO entries.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test:contracts": "cd src && dapple test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/consent-global/identity-service.git"
+  },
+  "keywords": [
+    "ethereum",
+    "consent",
+    "did",
+    "ddo"
+  ],
+  "author": "Stephan Bothma <stephan@io.co.za>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/consent-global/identity-service/issues"
+  },
+  "homepage": "https://github.com/consent-global/identity-service#readme",
+  "dependencies": {
+    "dapple": "^0.8.39",
+    "solc": "^0.4.6"
+  }
+}
