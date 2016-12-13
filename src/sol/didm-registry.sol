@@ -1,6 +1,6 @@
 pragma solidity ^0.4.4;
 
-import "cnsnt-did";
+import "cnsnt-did.sol";
 
 /** @title Consent DIDM Registry */
 contract DIDM {
@@ -24,7 +24,7 @@ contract DIDM {
     uint new_did_index = ++didCount;
 
     // Spin up the did contract
-    new_did = new CDID(msg.sender, this);
+    new_did = new CDID(msg.sender);
 
     // Create the new did_record
     did_key[new_did] = new_did_index;
