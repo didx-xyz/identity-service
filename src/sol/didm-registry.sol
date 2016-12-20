@@ -1,4 +1,4 @@
-pragma solidity ^0.4.4;
+pragma solidity ^0.4.6;
 
 import "cnsnt-did.sol";
 
@@ -8,23 +8,26 @@ contract DIDM {
   mapping (address => uint) did_key;
   mapping (uint => string) ddo_value;
 
-  uint public didCount = 0;
+  uint public did_count = 0;
 
   event created(address did);
 
   /**
    * @dev Creates a new instance of the CDID contract
    * @param _ddo DDO to set for the new DID
-   * @returns new_did Address of the newly created DID
+   * @return new_did Address of the newly created DID
    */
   function create(string _ddo) returns (address new_did) {
-    // Only allow one ddo per did
+    // Only allow one ddo per top level cdid
     if (did_key[msg.sender] != 0) throw;
 
-    uint new_did_index = ++didCount;
+    uint new_did_index = ++did_count;
 
     // Spin up the did contract
     new_did = new CDID(msg.sender);
+
+    // Edge case where the generated consent did is already registered (untestable), but will prevent the current DDO from being overwritten
+    if (did_key[new_did] != 0) throw;
 
     // Create the new did_record
     did_key[new_did] = new_did_index;
@@ -39,7 +42,7 @@ contract DIDM {
   /**
    * @dev Verify/Read the DDO entry for a specified DID
    * @param consent_did DID to look up
-   * @returns ddo The matching DDO entry for the DID
+   * @return ddo The matching DDO entry for the DID
    */
   function verify(address consent_did) constant returns (string ddo) {
     ddo = ddo_value[did_key[consent_did]];
