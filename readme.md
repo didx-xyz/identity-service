@@ -4,6 +4,9 @@ The Ethereum Identity Service smart contract stores registered DIDs and matching
 
 The Consent DID smart contract instance can act as a persistent and immutable relay, fully under control of the identity owner. These smart contracts can be controlled by simple keypairs, or more complex guardian keypairs or M-of-N controlled contracts.
 
+[Read the current Consent DID Method Specification here.](/docs/did-method-spec.md)
+
 ## Documentation
 
-[Implementation and testing documentation](/docs/) can be found in the `/docs/` directory.
+* [Running Unit Tests](/docs/testing.md)
+* [Developer notes](/docs/implementation.md)
