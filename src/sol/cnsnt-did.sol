@@ -13,7 +13,6 @@ contract CDID {
     controller = _controller;
   }
 
-
   /**
    * @dev Forward any wei and calldata to the specified address, throwing if the call doesn't succeed
    * @param _to The address to forward the call to

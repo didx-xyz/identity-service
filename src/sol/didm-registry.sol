@@ -21,13 +21,13 @@ contract DIDM {
     // Only allow one ddo per top level cdid
     if (did_key[msg.sender] != 0) throw;
 
-    uint new_did_index = ++did_count;
-
     // Spin up the did contract
     new_did = new CDID(msg.sender);
 
     // Edge case where the generated consent did is already registered (untestable), but will prevent the current DDO from being overwritten
     if (did_key[new_did] != 0) throw;
+
+    uint new_did_index = ++did_count;
 
     // Create the new did_record
     did_key[new_did] = new_did_index;

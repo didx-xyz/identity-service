@@ -105,7 +105,7 @@ contract DIDMUpdateTest is Test, DIDM_logging_events {
 
   // Test that calling revoke from an unregistered address throws
   function testThrowUnregisteredUpdate() {
-    registry.update();
+    registry.update('this should fail');
   }
 }
 
