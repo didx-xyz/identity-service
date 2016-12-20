@@ -9,7 +9,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "npm run --silent test:contracts",
     "test:contracts": "cd src/sol && dapple test"
   },
   "repository": {

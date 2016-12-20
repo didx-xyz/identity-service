@@ -1,7 +1,7 @@
 layout:
   sol_sources: .
   build_dir: ".dapple"
-ignore: [didm-registry.sol]
+ignore: []
 dapple_version: 0.8.39
 environments:
   develop:
