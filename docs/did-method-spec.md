@@ -45,4 +45,4 @@ example:        "did:cnsnt:0x123456789abcdef0123456789abcdef012345678"
 
 ### Revocation
 
-* A DDO entry can be revoked by doing modification/update call with an empty string as DDO.
+* A DDO entry can be revoked by doing modification/update call with an empty string as DDO. The registry provides a revoke utility method for this.
