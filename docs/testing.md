@@ -1,26 +1,34 @@
 # Testing the Consent Identity Service
 
-We make use of the [Dapple VM test harness](https://github.com/nexusdev/dapple) to run basic unit tests on the [registry](../src/sol/didm-registry.sol) and [did contracts](../src/sol/cnsnt-did.sol).
+We make use of the [Dapple VM test harness](https://github.com/nexusdev/dapple) and the Emscripten compiled [Solidity compiler](https://github.com/ethereum/solc-js) to run basic unit tests on the Ethereum smart contracts:
+
+* [Consent DID Identity Contract](../src/sol/cnsnt-did.sol) | [Tests](../src/sol/cnsnt-did_test.sol)
+* [Consent DDO Registry Contract](../src/sol/didm-registry.sol) | [Tests](../src/sol/didm-registry_test.sol)
 
 ## Installation
 
 ```bash
+# Clone this repo:
+$ git clone git@github.com:consent-global/identity-service.git && cd identity-service
+
+# Install unit test dependencies:
 $ npm install -g dapple solc
 ```
 
 ## Running
 
+These tests take 2-3 minutes to finish — it might appear that the tests hang on the compilation step.
+
+The order in which the tests run aren't guaranteed.
+
 ```bash
 $ npm test
-```
 
-> Please note that these tests take 2-3 minutes to finish — it might seem like the tests hang on the compilation step. The order in which the tests run aren't guaranteed.
-
-```bash
 > consent-ethereum-identity-service@0.2.0 test
 > npm run --silent test:contracts
+
+# outputs:
 ```
-It should return the following text:
 ```
 Testing...
 No local solc found. Switching over to JS compiler...
