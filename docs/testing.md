@@ -25,7 +25,7 @@ It should return the following text:
 Testing...
 No local solc found. Switching over to JS compiler...
 
-**CDIDChangeOwnerTest**
+CDIDChangeOwnerTest
   test fail on replaced owner
   Passed!
 
@@ -38,7 +38,7 @@ No local solc found. Switching over to JS compiler...
   test pass on changing owner
   Passed!
 
-**CDIDForwardTest**
+CDIDForwardTest
   test forward with zero wei and calldata
   | Chirp
   | Chirp
@@ -54,7 +54,7 @@ No local solc found. Switching over to JS compiler...
   | ZeroWei
   Passed!
 
-**CDIDFundedForwardTest**
+CDIDFundedForwardTest
   test pass forward ten wei
   | TenWei
   | TenWei
@@ -73,7 +73,7 @@ No local solc found. Switching over to JS compiler...
   |   val: 100
   Passed!
 
-**DIDMCreateTest**
+DIDMCreateTest
   test created did event
   | created
   |   did: 0x8896b173b0dbd92c7536b0906b4b228848e3043b
@@ -93,7 +93,7 @@ No local solc found. Switching over to JS compiler...
   |   val: 0x56c162d66200144ef5d9b980385ff252b1f8738f
   Passed!
 
-**DIDMRevokeTest**
+DIDMRevokeTest
   test throw unregistered revoke
   Passed!
 
@@ -107,7 +107,7 @@ No local solc found. Switching over to JS compiler...
   test revoke call
   Passed!
 
-**DIDMUpdateTest**
+DIDMUpdateTest
   test throw unregistered update
   Passed!
 
@@ -132,7 +132,7 @@ No local solc found. Switching over to JS compiler...
   |   _ddo: test_ddo
   Passed!
 
-**Summary**
+Summary
   Passed all 20 tests!
 
 ```
