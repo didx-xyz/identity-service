@@ -8,5 +8,5 @@ The Consent DID smart contract instance acts as a persistent and immutable ident
 
 ## Documentation
 
-* [Running Unit Tests](/docs/testing.md)
+* [Unit tests](/docs/testing.md)
 * [Developer notes](/docs/usage.md)
