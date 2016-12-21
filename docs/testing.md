@@ -21,7 +21,8 @@ It should return the following text:
 ```bash
 > consent-ethereum-identity-service@0.2.0 test
 > npm run --silent test:contracts
-
+```
+```
 Testing...
 No local solc found. Switching over to JS compiler...
 
