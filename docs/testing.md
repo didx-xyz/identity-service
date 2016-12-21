@@ -16,50 +16,49 @@ $ npm test
 
 > Please note that these tests take 2-3 minutes to finish — it might seem like the tests hang on the compilation step. The order in which the tests run aren't guaranteed.
 
-It should return the following text:
-
 ```bash
 > consent-ethereum-identity-service@0.2.0 test
 > npm run --silent test:contracts
 ```
+It should return the following text:
 ```
 Testing...
 No local solc found. Switching over to JS compiler...
 
-CDIDChangeOwnerTest
+CDIDChangeOwnerTest
   test fail on replaced owner
-  Passed!
+  Passed!
 
   test fail on unauthorized owner
-  Passed!
+  Passed!
 
   test pass on serially changing owner
-  Passed!
+  Passed!
 
   test pass on changing owner
-  Passed!
+  Passed!
 
-CDIDForwardTest
+CDIDForwardTest
   test forward with zero wei and calldata
   | Chirp
   | Chirp
-  Passed!
+  Passed!
 
   test forward with zero wei
   | ZeroWei
   | ZeroWei
-  Passed!
+  Passed!
 
   test forward with zero wei and invalid calldata
   | ZeroWei
   | ZeroWei
-  Passed!
+  Passed!
 
-CDIDFundedForwardTest
+CDIDFundedForwardTest
   test pass forward ten wei
   | TenWei
   | TenWei
-  Passed!
+  Passed!
 
   test assert balance
   | consent did pre transfer: 100
@@ -67,71 +66,71 @@ CDIDFundedForwardTest
   | TenWei
   | consent did post transfer: 90
   | test canary post transfer: 10
-  Passed!
+  Passed!
 
   test did balance
   | log_uint
   |   val: 100
-  Passed!
+  Passed!
 
-DIDMCreateTest
+DIDMCreateTest
   test created did event
   | created
   |   did: 0x8896b173b0dbd92c7536b0906b4b228848e3043b
   | created
   |   did: 0x8896b173b0dbd92c7536b0906b4b228848e3043b
-  Passed!
+  Passed!
 
   test created valid did instance
   | created
   |   did: 0xc5a4e3d06cb8adbd25ff6e8449de9bda88430142
-  Passed!
+  Passed!
 
   test create did address
   | created
   |   did: 0x56c162d66200144ef5d9b980385ff252b1f8738f
   | log_address
   |   val: 0x56c162d66200144ef5d9b980385ff252b1f8738f
-  Passed!
+  Passed!
 
-DIDMRevokeTest
+DIDMRevokeTest
   test throw unregistered revoke
-  Passed!
+  Passed!
 
   test revoke call effect
   | LogDDO
   |   _ddo:
   | LogDDO
   |   _ddo:
-  Passed!
+  Passed!
 
   test revoke call
-  Passed!
+  Passed!
 
-DIDMUpdateTest
+DIDMUpdateTest
   test throw unregistered update
-  Passed!
+  Passed!
 
   test fail expecting wrong ddo
   | LogDDO
   |   _ddo: test_ddo
   | LogDDO
   |   _ddo: wrong_test_ddo
-  Passed!
+  Passed!
 
   test change ddo
   | LogDDO
   |   _ddo: updated_test_ddo
   | LogDDO
   |   _ddo: updated_test_ddo
-  Passed!
+  Passed!
 
   test ddo exists
   | LogDDO
   |   _ddo: test_ddo
   | LogDDO
   |   _ddo: test_ddo
-  Passed!
+  Passed!
 
 Summary
   Passed all 20 tests!
