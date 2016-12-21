@@ -132,7 +132,7 @@ DIDMUpdateTest
   |   _ddo: test_ddo
   Passed!
 
-Summary
-  Passed all 20 tests!
+Summary
+  Passed all 20 tests!
 
 ```
