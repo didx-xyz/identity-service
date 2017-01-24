@@ -20,27 +20,66 @@ contract DIDMCreateTest is Test {
   DIDM registry;
   CDID did;
   bytes calldata;
+  Tester tester;
 
-  event created(address did);
+  event created(address did, address controller);
 
   function setUp() {
     registry = new DIDM();
+    tester = new Tester();
   }
 
   function testCreateDidAddress() {
-    address did_address = registry.create('test_ddo');
+    address did_address = registry.create('test_ddo', 0);
     log_address(did_address);
   }
 
   function testCreatedValidDidInstance() {
-    address did_address = registry.create('test_ddo');
+    address did_address = registry.create('test_ddo', 0);
     CDID(did_address).change_controller(this);
   }
 
   function testCreatedDidEvent() {
     expectEventsExact(registry);
-    address did_address = registry.create('test_ddo');
-    created(did_address);
+    address did_address = registry.create('test_ddo', 0);
+    created(did_address, this);
+  }
+
+  function testCreatedDidEventSponsored() {
+    expectEventsExact(registry);
+    address did_address = registry.create('test_ddo', tester);
+    created(did_address, tester);
+  }
+}
+
+contract DIDMCreateSponsored is Test {
+  DIDM registry;
+  CDID did;
+  bytes calldata;
+  Tester tester;
+  Tester jester;
+
+  function setUp() {
+    registry = new DIDM();
+    tester = new Tester();
+    jester = new Tester();
+  }
+
+  function testCreateOwn() {
+    address did_address = registry.create('', 0);
+    CDID(did_address).change_controller(this);
+  }
+
+  function testCreateSponsored() {
+    address did_address = registry.create('', tester);
+    tester._target(did_address);
+    CDID(tester).change_controller(this);
+  }
+
+  function testThrowCreateSponsored() {
+    address did_address = registry.create('', tester);
+    jester._target(did_address);
+    CDID(jester).change_controller(this);
   }
 }
 
@@ -53,7 +92,7 @@ contract DIDMUpdateTest is Test, DIDM_logging_events {
   // _before every_ test, on a fresh instance of `this` contract:
   function setUp() {
     registry = new DIDM_with_logging();
-    did_address = registry.create('test_ddo');
+    did_address = registry.create('test_ddo', 0);
     did = CDID(did_address);
   }
 
@@ -117,7 +156,7 @@ contract DIDMRevokeTest is Test, DIDM_logging_events {
 
   function setUp() {
     registry = new DIDM_with_logging();
-    did_address = registry.create('test_ddo');
+    did_address = registry.create('test_ddo', 0);
     did = CDID(did_address);
   }
 
