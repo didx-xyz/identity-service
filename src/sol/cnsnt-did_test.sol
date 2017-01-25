@@ -36,12 +36,13 @@ contract CDIDChangeOwnerTest is Test {
 
   // This function is run before _every_ test
   function setUp() {
+
     // Create two tester accounts:
     test_account_one = new Tester();
     test_account_two = new Tester();
 
     // Create a (orphan) did and set the first test account as its owner:
-    did = new CDID(test_account_one);
+    did = new CDID(test_account_one, 0);
 
     // Set _both_ test accounts to target the did contract:
     test_account_one._target(did);
@@ -84,7 +85,7 @@ contract CDIDForwardTest is Test, Chirps {
   function setUp() {
     test_account = new Tester();
     polly = new Canary();
-    did = new CDID(test_account);
+    did = new CDID(test_account, 0);
     test_account._target(did);
   }
 
@@ -148,7 +149,7 @@ contract CDIDFundedForwardTest is Test, Chirps {
   Canary polly;
 
   function setUp() {
-    did = new CDID(this);
+    did = new CDID(this, 0);
     polly = new Canary();
     // Here we fund the did (before every test)
     bool success = did.send(100);

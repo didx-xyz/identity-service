@@ -10,24 +10,35 @@ contract DIDM {
 
   uint public did_count = 0;
 
-  event created(address did, address controller);
+  event created(address did, address controller, address owner);
 
   /**
    * @dev Creates a new instance of the CDID contract
    * @param _ddo DDO to set for the new DID
    * @return new_did Address of the newly created DID
    */
-  function create(string _ddo, address _controller) returns (address new_did) {
+  function create(
+    string  _ddo,
+    address _controller,
+    address _owner
+  ) returns (
+    address new_did
+  ) {
     // Only allow one ddo per top level cdid
     if (did_key[msg.sender] != 0) throw;
 
     address controller = _controller;
+    address owner = _owner;
 
-    // If the controller isn't specified (set to 0), fall back to msg.sender
+    // Fall back to setting owner as controller if unspecified
     if (controller == 0) controller = msg.sender;
 
+    // Fall back to setting transaction signer as owner if unspecified
+    if (owner == 0) owner = controller;
+
+
     // Spin up the did contract
-    new_did = new CDID(controller);
+    new_did = new CDID(controller, owner);
 
     // Edge case where the generated consent did is already registered (untestable), but will prevent the current DDO from being overwritten
     if (did_key[new_did] != 0) throw;
@@ -41,7 +52,7 @@ contract DIDM {
     ddo_value[new_did_index] = _ddo;
 
     // Emit event
-    created(new_did, controller);
+    created(new_did, controller, owner);
   }
 
   /**
