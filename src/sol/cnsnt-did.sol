@@ -3,19 +3,19 @@ pragma solidity ^0.4.6;
 /** @title Consent DID */
 contract CDID {
 
-  // The "controller" keypair is allowed to forward calls through this relay and to replace itself.
-  address public controller;
+  // The "admin" keypair is allowed to forward calls through this relay and to replace itself.
+  address public admin;
 
-  // The "owner" keypair is only allowed to replace itself or the controller keypair
+  // The "owner" keypair is only allowed to replace itself or the admin keypair
   address public owner;
 
   /**
-   * @dev Creates a new instance of the proxy contract, with the supplied address as controller.
-   * @param _controller The account to set as the controller of the new instance
+   * @dev Creates a new instance of the proxy contract, with the supplied address as admin.
+   * @param _admin The account to set as the admin of the new instance
    * @param _owner (optional) The owner of this CDID
    */
-  function CDID(address _controller, address _owner) {
-    controller = _controller;
+  function CDID(address _admin, address _owner) {
+    admin = _admin;
     owner = _owner;
   }
 
@@ -26,17 +26,17 @@ contract CDID {
    * @param _calldata The calldata to
    */
   function forward(address _to, uint _wei, bytes _calldata) {
-    if (msg.sender != controller) throw;
+    if (msg.sender != admin) throw;
     if (!_to.call.value(_wei)(_calldata)) throw;
   }
 
   /**
    * @dev Change the owner of this Consent DID to any account/contract instance (warning: this contract doensn't check that the address exists!)
-   * @param _new_controller The account to set as the new controller of the Consent DID
+   * @param _new_admin The account to set as the new admin of the Consent DID
    */
-  function change_controller(address _new_controller) {
-    if (msg.sender != controller && msg.sender != owner) throw;
-    controller = _new_controller;
+  function change_admin(address _new_admin) {
+    if (msg.sender != admin && msg.sender != owner) throw;
+    admin = _new_admin;
   }
 
   /**

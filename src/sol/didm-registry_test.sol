@@ -21,12 +21,14 @@ contract DIDMCreateTest is Test {
   CDID did;
   bytes calldata;
   Tester tester;
+  Tester tester2;
 
-  event created(address did, address controller, address owner);
+  event created(address did, address admin, address owner);
 
   function setUp() {
     registry = new DIDM();
     tester = new Tester();
+    tester2 = new Tester();
   }
 
   function testCreateDidAddress() {
@@ -36,7 +38,7 @@ contract DIDMCreateTest is Test {
 
   function testCreatedValidDidInstance() {
     address did_address = registry.create('test_ddo', 0, 0);
-    CDID(did_address).change_controller(this);
+    CDID(did_address).change_admin(this);
   }
 
   function testCreatedDidEvent() {
@@ -50,6 +52,8 @@ contract DIDMCreateTest is Test {
     address did_address = registry.create('test_ddo', tester, 0);
     created(did_address, tester, tester);
   }
+
+
 }
 
 contract DIDMCreateSponsored is Test {
@@ -67,19 +71,19 @@ contract DIDMCreateSponsored is Test {
 
   function testCreateOwn() {
     address did_address = registry.create('', 0, 0);
-    CDID(did_address).change_controller(this);
+    CDID(did_address).change_admin(this);
   }
 
   function testCreateSponsored() {
     address did_address = registry.create('', tester, 0);
     tester._target(did_address);
-    CDID(tester).change_controller(this);
+    CDID(tester).change_admin(this);
   }
 
   function testThrowCreateSponsored() {
     address did_address = registry.create('', tester, 0);
     jester._target(did_address);
-    CDID(jester).change_controller(this);
+    CDID(jester).change_admin(this);
   }
 }
 

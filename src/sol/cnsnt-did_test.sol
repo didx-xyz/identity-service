@@ -26,7 +26,7 @@ contract Canary is Chirps {
   }
 }
 
-// These tests checks the `change_controller` function, which is used to hand over control of the proxy to another controller keypair/smart contract instance
+// These tests checks the `change_admin` function, which is used to hand over control of the proxy to another controller keypair/smart contract instance
 contract CDIDChangeOwnerTest is Test {
 
   CDID did;
@@ -49,26 +49,26 @@ contract CDIDChangeOwnerTest is Test {
     test_account_two._target(did);
   }
 
-  // Test if the `change_controller` method can be called passing in the second test account's address as param
+  // Test if the `change_admin` method can be called passing in the second test account's address as param
   function testPassOnChangingOwner() {
-    CDID(test_account_one).change_controller(test_account_two);
+    CDID(test_account_one).change_admin(test_account_two);
   }
 
-  // Test that the `change_controller` method actually changes the owner of the proxy contract (tested by calling a[ny] method on the proxy from the second test account)
+  // Test that the `change_admin` method actually changes the owner of the proxy contract (tested by calling a[ny] method on the proxy from the second test account)
   function testPassOnSeriallyChangingOwner() {
-    CDID(test_account_one).change_controller(test_account_two);
-    CDID(test_account_two).change_controller(this);
+    CDID(test_account_one).change_admin(test_account_two);
+    CDID(test_account_two).change_admin(this);
   }
 
-  // Test that the `change_controller` method can't be called from an arbitrary account
+  // Test that the `change_admin` method can't be called from an arbitrary account
   function testFailOnUnauthorizedOwner() {
-    CDID(test_account_two).change_controller(this);
+    CDID(test_account_two).change_admin(this);
   }
 
-  // Test that the `change_controller` method can't be called from a previously replaced account
+  // Test that the `change_admin` method can't be called from a previously replaced account
   function testFailOnReplacedOwner() {
-    CDID(test_account_one).change_controller(test_account_two);
-    CDID(test_account_one).change_controller(this);
+    CDID(test_account_one).change_admin(test_account_two);
+    CDID(test_account_one).change_admin(this);
   }
 
 }
