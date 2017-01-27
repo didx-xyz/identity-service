@@ -16,6 +16,45 @@ contract DIDM_with_logging is DIDM, DIDM_logging_events {
   }
 }
 
+contract DidmAdminOwnerTest is Test {
+  DIDM registry;
+  CDID did;
+  Tester tester1;
+  Tester tester2;
+
+  event created(address did, address admin, address owner);
+
+  function setUp() {
+    registry = new DIDM();
+    tester1 = new Tester();
+    tester2 = new Tester();
+  }
+
+  function testEventNoAdminNoOwner() {
+    expectEventsExact(registry);
+    address did_address = registry.create('', 0, 0);
+    created(did_address, this, this);
+  }
+
+  function testEventNoAdmin() {
+    expectEventsExact(registry);
+    address did_address = registry.create('', 0, tester2);
+    created(did_address, this, tester2);
+  }
+
+  function testEventNoOwner() {
+    expectEventsExact(registry);
+    address did_address = registry.create('', tester1, 0);
+    created(did_address, tester1, tester1);
+  }
+
+  function testEventBoth() {
+    expectEventsExact(registry);
+    address did_address = registry.create('', tester1, tester2);
+    created(did_address, tester1, tester2);
+  }
+}
+
 contract DIDMCreateTest is Test {
   DIDM registry;
   CDID did;

@@ -188,3 +188,39 @@ contract CDIDFundedForwardTest is Test, Chirps {
 
   }
 }
+
+contract CdidAdminOwnerTest is Test, Chirps {
+
+  CDID did;
+  Tester admin;
+  Tester owner;
+  Canary polly;
+  bytes calldata;
+
+  function setUp() {
+    polly = new Canary();
+    admin = new Tester();
+    owner = new Tester();
+
+    did = new CDID(admin, owner);
+
+    admin._target(did);
+    owner._target(did);
+  }
+
+  function testFailChangeOwnerWithAdmin() {
+    CDID(admin).change_owner(this);
+  }
+
+  function testFailChangeAdminWithUnknown() {
+    CDID(this).change_admin(owner);
+  }
+
+  function testFailForwardByOwner() {
+    CDID(owner).forward(polly, 0, calldata);
+  }
+
+  function testPassForwardByAdmin() {
+    CDID(admin).forward(polly, 0, calldata);
+  }
+}
