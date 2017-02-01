@@ -26,11 +26,14 @@ Welcome to the Geth JavaScript console!
 ```javascript
 // Send a `create` call directly to the registry contract:
 > did_creation_tx_hash = registry.create(
-  "",                      // <- Optionally set DDO (or empty string),
-  0, {                     //    0 sets the transaction signer as "controller"
-    from: eth.accounts[0], // <- Use the first geth account to pay for this tx
-    gas: 300000            // <- Set a gas ammount, unused gas will be returned
-  });
+    "", // <- DDO (empty string for none)
+    0,  // <- admin/"controller", 0 uses transaction signer
+    0   // <- owner, 0 falls back to transaction signer address
+    {   // <- Transaction options
+      from: eth.accounts[0], // <- Use the first geth account to pay
+      gas: 300000            // <- Set a gas ammount
+    }
+  );
 
 // returns pending transaction hash:
 "0x9d38bc0cd277ba25ce54fef7ed941e9866d05f7f5f5638c409b1a6925e2931f5"

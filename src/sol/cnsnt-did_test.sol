@@ -26,53 +26,6 @@ contract Canary is Chirps {
   }
 }
 
-// These tests checks the `change_admin` function, which is used to hand over control of the proxy to another controller keypair/smart contract instance
-contract CDIDChangeOwnerTest is Test {
-
-  CDID did;
-
-  Tester test_account_one;
-  Tester test_account_two;
-
-  // This function is run before _every_ test
-  function setUp() {
-
-    // Create two tester accounts:
-    test_account_one = new Tester();
-    test_account_two = new Tester();
-
-    // Create a (orphan) did and set the first test account as its owner:
-    did = new CDID(test_account_one, 0);
-
-    // Set _both_ test accounts to target the did contract:
-    test_account_one._target(did);
-    test_account_two._target(did);
-  }
-
-  // Test if the `change_admin` method can be called passing in the second test account's address as param
-  function testPassOnChangingOwner() {
-    CDID(test_account_one).change_admin(test_account_two);
-  }
-
-  // Test that the `change_admin` method actually changes the owner of the proxy contract (tested by calling a[ny] method on the proxy from the second test account)
-  function testPassOnSeriallyChangingOwner() {
-    CDID(test_account_one).change_admin(test_account_two);
-    CDID(test_account_two).change_admin(this);
-  }
-
-  // Test that the `change_admin` method can't be called from an arbitrary account
-  function testFailOnUnauthorizedOwner() {
-    CDID(test_account_two).change_admin(this);
-  }
-
-  // Test that the `change_admin` method can't be called from a previously replaced account
-  function testFailOnReplacedOwner() {
-    CDID(test_account_one).change_admin(test_account_two);
-    CDID(test_account_one).change_admin(this);
-  }
-
-}
-
 // These tests check the `forward` function, which is used to interact with other contracts/accounts on the network
 contract CDIDForwardTest is Test, Chirps {
 
@@ -139,7 +92,6 @@ contract CDIDForwardTest is Test, Chirps {
 
     ZeroWei();
   }
-
 }
 
 // There tests check the `forward` call, in the case funds should be forwarded
@@ -189,7 +141,7 @@ contract CDIDFundedForwardTest is Test, Chirps {
   }
 }
 
-contract CdidAdminOwnerTest is Test, Chirps {
+contract CDIDAdminOwnerTest is Test, Chirps {
 
   CDID did;
   Tester admin;
@@ -222,5 +174,148 @@ contract CdidAdminOwnerTest is Test, Chirps {
 
   function testPassForwardByAdmin() {
     CDID(admin).forward(polly, 0, calldata);
+  }
+}
+
+contract CDIDadminOwnerTest is Test {
+  CDID did;
+  Tester admin;
+  Tester owner;
+
+  function setUp() {
+    admin = new Tester();
+    owner = new Tester();
+  }
+
+  function testNoAdminFallback() {
+    did = new CDID(0, owner);
+    address admin_read = did.admin();
+    address owner_read = did.owner();
+    assertEq(this, admin_read);
+    assertEq(owner, owner_read);
+  }
+
+  function testNoOwnerFallback() {
+    did = new CDID(admin, 0);
+    address admin_read = did.admin();
+    address owner_read = did.owner();
+    assertEq(admin, admin_read);
+    assertEq(admin, owner_read);
+  }
+
+  function testNoOwnerNoAdminFallback() {
+    did = new CDID(0, 0);
+    address admin_read = did.admin();
+    address owner_read = did.owner();
+    assertEq(this, admin_read);
+    assertEq(this, owner_read);
+  }
+
+  function testOwnerAdmin() {
+    did = new CDID(admin, owner);
+    address admin_read = did.admin();
+    address owner_read = did.owner();
+    assertEq(admin, admin_read);
+    assertEq(owner, owner_read);
+  }
+}
+
+contract CDIDLoggingTest is Test {
+
+  CDID did;
+  Tester admin;
+  Tester owner;
+
+  event claim(
+    string log_message,
+    bytes1 kind,
+    address indexed addr_1,
+    address indexed addr_2,
+    address indexed origin
+  );
+
+  function setUp() {
+    admin = new Tester();
+    owner = new Tester();
+
+    did = new CDID(admin, owner);
+
+    admin._target(did);
+    owner._target(did);
+  }
+
+  function testPassLog() {
+    expectEventsExact(did);
+
+    did.log_please(
+      "this is a test message this is a test message this is a test message this is a test message this is a test message",
+      0x43,
+      owner,
+      admin
+    );
+
+    claim(
+      "this is a test message this is a test message this is a test message this is a test message this is a test message",
+      0x43,
+      owner,
+      admin,
+      this
+    );
+  }
+
+  function testPassLogEmpty() {
+    expectEventsExact(did);
+    did.log_please("", 0x0, 0x0, 0x0);
+    claim("", 0x0, 0x0, 0x0, this);
+  }
+}
+
+// Utility contract to enable logging from storage, because we can't transport strings between contracts.
+contract CDIDCanary is CDID {
+  event storageLog(string value);
+
+  function logStorage(string _key) {
+    storageLog(kv_store[_key]);
+  }
+
+  function CDIDCanary(address _admin, address _owner)
+  CDID(_admin, _owner) {}
+
+}
+
+contract CDIDStorageTest is Test {
+  CDIDCanary did;
+  Tester admin;
+  Tester owner;
+
+  event storageLog(string value);
+
+  function setUp() {
+    admin = new Tester();
+    owner = new Tester();
+
+    did = new CDIDCanary(admin, owner);
+
+    admin._target(did);
+    owner._target(did);
+  }
+
+  function testFailStoreByOwner() {
+    CDIDCanary(owner).store("test_key", "test_value");
+  }
+
+  function testPassStoreByOwner() {
+    CDIDCanary(admin).store("test_key", "test_value");
+  }
+
+  function testRetrieve() {
+    CDIDCanary(admin).store("test_key", "test_value");
+
+    /*retrieved = CDID(admin).retrieve("test_key");*/
+    /*assertEq(retrieved, "test_value");*/
+
+    expectEventsExact(did);
+    CDIDCanary(admin).logStorage("test_key");
+    storageLog("test_value");
   }
 }

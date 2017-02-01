@@ -9,6 +9,17 @@ contract CDID {
   // The "owner" keypair is only allowed to replace itself or the admin keypair
   address public owner;
 
+  // Mapping to store key/value pairs
+  mapping(string => string) kv_store;
+
+  event claim(
+    string log_message,
+    bytes1 kind,
+    address indexed addr_1,
+    address indexed addr_2,
+    address indexed origin
+  );
+
   /**
    * @dev Creates a new instance of the proxy contract, with the supplied address as admin.
    * @param _admin The account to set as the admin of the new instance
@@ -17,6 +28,10 @@ contract CDID {
   function CDID(address _admin, address _owner) {
     admin = _admin;
     owner = _owner;
+
+    // Ensure that the CDID has owner and admin keys set (default: msg.sender)
+    if (admin == 0) admin = msg.sender;
+    if (owner == 0) owner = admin;
   }
 
   /**
@@ -28,6 +43,28 @@ contract CDID {
   function forward(address _to, uint _wei, bytes _calldata) {
     if (msg.sender != admin) throw;
     if (!_to.call.value(_wei)(_calldata)) throw;
+  }
+
+  /**
+   * Log/event data is not accessible from within contracts
+   * Allow anyone to log a message on a contract instance (note that this doesn't allow them to impersonate the owner)
+   */
+  function log_please(
+    string _log_message,
+    bytes1 _kind,
+    address _addr1,
+    address _addr2
+  ) {
+    claim(_log_message, _kind, _addr1, _addr2, msg.sender);
+  }
+
+  function store(string _key, string _value) {
+    if (msg.sender != admin) throw;
+    kv_store[_key] = _value;
+  }
+
+  function retrieve(string _key) constant returns (string value) {
+    value = kv_store[_key];
   }
 
   /**
