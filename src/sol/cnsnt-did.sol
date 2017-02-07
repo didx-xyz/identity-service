@@ -78,6 +78,7 @@ contract CDID {
 
   /**
    * @dev Change the owner key of this instance
+   * @param _new_owner Replacement address for owner
   */
   function change_owner(address _new_owner) {
     if (msg.sender != owner) throw;
