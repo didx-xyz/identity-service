@@ -85,6 +85,14 @@ contract CDID {
     owner = _new_owner;
   }
 
+  /**
+   * @dev Token functionality
+   */
+
+  function receiveApproval(address _from, uint256 _value, address _token, bytes _extraData) {
+    return true;
+  }
+
   /** Accept ether transfers to this contract
    * @dev Allow the fallback function to be used
    */
