@@ -1,7 +1,9 @@
 pragma solidity ^0.4.9;
 
+import "wallet.sol";
+
 /** @title Consent DID */
-contract CDID {
+contract CDID is Wallet{
 
   // The "admin" keypair is allowed to forward calls through this relay and to replace itself.
   address public admin;
