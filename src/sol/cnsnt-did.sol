@@ -1,6 +1,6 @@
 pragma solidity ^0.4.9;
 
-import "wallet.sol";
+import "wallet/wallet.sol";
 
 /** @title Consent DID */
 contract CDID {
