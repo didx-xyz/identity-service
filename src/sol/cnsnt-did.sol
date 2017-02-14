@@ -3,7 +3,7 @@ pragma solidity ^0.4.9;
 import "wallet/wallet.sol";
 
 /** @title Consent DID */
-contract CDID {
+contract CDID is Wallet{
 
   // The "admin" keypair is allowed to forward calls through this relay and to replace itself.
   address public admin;
@@ -27,13 +27,27 @@ contract CDID {
    * @param _admin The account to set as the admin of the new instance
    * @param _owner (optional) The owner of this CDID
    */
-  function CDID(address _admin, address _owner) {
+  function CDID(address _admin, address _owner)
+    Wallet(
+      transformArray(_owner),
+      1,
+      100000000000000000000000000
+    )
+  {
     admin = _admin;
     owner = _owner;
 
     // Ensure that the CDID has owner and admin keys set (default: msg.sender)
     if (admin == 0) admin = msg.sender;
     if (owner == 0) owner = admin;
+  }
+
+  function transformArray(address _owner)
+    internal
+    returns (address[] _owners)
+  {
+    _owners = new address[](0);
+    _owners[0] = _owner;
   }
 
   /**
