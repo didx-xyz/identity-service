@@ -15,8 +15,8 @@ contract CDID {
   mapping(string => string) kv_store;
 
   event claim(
-    string log_message,
-    bytes1 kind,
+    string  log_message,
+    bytes1  kind,
     address indexed addr_1,
     address indexed addr_2,
     address indexed origin
