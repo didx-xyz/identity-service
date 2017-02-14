@@ -29,7 +29,7 @@ contract CDID is Wallet{
    */
   function CDID(address _admin, address _owner)
     Wallet(
-      cdidWalletConstructor(address _admin, address _owner),
+      cdidWalletConstructor(_admin, _owner),
       1,
       100000000000000000000000000
     )
