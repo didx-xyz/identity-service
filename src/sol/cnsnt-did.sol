@@ -33,6 +33,11 @@ contract CDID is Wallet{
       1,
       100000000000000000000000000
     )
+  { }
+
+  function cdidWalletConstructor(address _owner)
+    internal
+    returns (address[] _owners)
   {
     admin = _admin;
     owner = _owner;
@@ -40,12 +45,7 @@ contract CDID is Wallet{
     // Ensure that the CDID has owner and admin keys set (default: msg.sender)
     if (admin == 0) admin = msg.sender;
     if (owner == 0) owner = admin;
-  }
 
-  function transformArray(address _owner)
-    internal
-    returns (address[] _owners)
-  {
     _owners = new address[](0);
     _owners[0] = _owner;
   }
