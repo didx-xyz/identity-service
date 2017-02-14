@@ -1,5 +1,7 @@
 pragma solidity ^0.4.9;
 
+import "wallet/multiowned.sol";
+
 // Inheritable "property" contract that enables methods to be protected
 // by placing a linear limit (specifiable) on a particular resource
 // per calendar day. Is `multiowned` to allow the limit to be altered.
