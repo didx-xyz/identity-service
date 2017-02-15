@@ -46,6 +46,7 @@ contract CDID is Wallet{
     if (admin == 0) admin = msg.sender;
     if (owner == 0) owner = admin;
 
+    // Return an array of owners to the Wallet constructor
     _owners = new address[](1);
     _owners[0] = _owner;
   }
