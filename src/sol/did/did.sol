@@ -16,7 +16,7 @@ contract ConsentDID is Wallet, Claims {
       1,
       1000000 ether
       )
-    restricted(admin, didm)
+    Restricted_Wallet(admin, didm)
   { }
 
   /// @dev transforms address to address[]

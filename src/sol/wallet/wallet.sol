@@ -24,7 +24,7 @@ import "wallet/daylimit.sol";
 // bytes32 h = Wallet(w).from(oneOwner).execute(to, value, data);
 // Wallet(w).from(anotherOwner).confirm(h);
 
-contract Wallet is multisig, multiowned, daylimit {
+contract Wallet is multisig, multiowned, daylimit, Restricted_Wallet {
 
   // Transaction structure
   // —————————————————————
@@ -83,6 +83,7 @@ contract Wallet is multisig, multiowned, daylimit {
     bytes   _data
   )
     external
+    notrestricted(_to)
     onlyowner
     returns (bytes32 _r)
   {

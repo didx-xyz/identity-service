@@ -1,6 +1,6 @@
 pragma solidity ^0.4.9;
 
-contract restricted {
+contract Restricted_Wallet {
   address public r_admin;
   address public r_registry;
 
@@ -10,23 +10,17 @@ contract restricted {
   }
 
   modifier notrestricted(address _to) {
-    if (_to == r_registry) throw;
+    if (_to == r_registry && msg.sender != r_admin) throw;
     _;
   }
 
   // CONSTRUCTOR
   // ———————————
-  function restricted(
+  function Restricted_Wallet(
     address administrator,
     address registry_addr
   ) {
     r_admin = administrator;
     r_registry = registry_addr;
-  }
-
-  function execute(address _to, uint _value, bytes _data)
-    notrestricted(_to)
-  {
-    super.execute(_to, _value, _data);
   }
 }
