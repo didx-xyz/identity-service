@@ -93,13 +93,10 @@ contract multiowned {
   // given number of sigs required to do protected "onlymanyowners" txs
   // as well as the selection of addresses capable of confirming them.
   function multiowned(address[] _owners, uint _required) {
-    m_numOwners = _owners.length + 1;
-    m_owners[1] = uint(msg.sender);
-    m_ownerIndex[uint(msg.sender)] = 1;
-    for (uint i = 0; i < _owners.length; ++i)
-    {
-      m_owners[2 + i] = uint(_owners[i]);
-      m_ownerIndex[uint(_owners[i])] = 2 + i;
+    m_numOwners = _owners.length;
+    for (uint i = 0; i < _owners.length; ++i) {
+      m_owners[1 + i] = uint(_owners[i]);
+      m_ownerIndex[uint(_owners[i])] = 1 + i;
     }
     m_required = _required;
   }
