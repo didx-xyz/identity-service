@@ -1,41 +1,28 @@
 pragma solidity ^0.4.9;
 
-import "wallet/wallet.sol";
+import "wallet/lightweight.sol";
 import "did/claims.sol";
 import "registry/interface.sol";
 
-contract ConsentDID is Wallet, Claims {
+contract Consent_DID is Lightweight_Wallet, Claims {
 
-  function ConsentDID(
+  function Consent_DID (
     address owner,
     address admin,
     address didm
     )
-    Wallet(
-      wallet_constructor_helper(owner),
-      1,
-      1000000 ether
-      )
+    Lightweight_Wallet(owner)
     Restricted_Wallet(admin, didm)
   { }
 
-  /// @dev transforms address to address[]
-  function wallet_constructor_helper(address _owner)
-    internal
-    returns (address[] _owners)
-  {
-    _owners = new address[](1);
-    _owners[0] = _owner;
-  }
-
-  function update_ddo(string new_ddo)
+  function updateDDO(string new_ddo)
     onlyadmin()
     returns (bool updated)
   {
     return didmInterface(r_registry).update(new_ddo);
   }
 
-  function revoke_ddo()
+  function revokeDDO()
     onlyadmin()
     returns (bool revoked)
   {

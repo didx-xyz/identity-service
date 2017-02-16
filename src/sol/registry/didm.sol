@@ -3,7 +3,7 @@ pragma solidity ^0.4.9;
 import "did/did.sol";
 
 /** @title Consent DIDM Registry */
-contract DIDM {
+contract DIDM_Registry {
 
   mapping (address => uint) did_key;
   mapping (uint => string) ddo_value;
@@ -48,7 +48,7 @@ contract DIDM {
 
 
     // Spin up the did contract
-    new_did = new ConsentDID(owner, admin, this);
+    new_did = new Consent_DID(owner, admin, this);
 
     // Edge case where the generated consent did is already registered (untestable), but will prevent the current DDO from being overwritten
     if (did_key[new_did] != 0) throw;
