@@ -6,7 +6,7 @@ import "claim_logger.sol";
 
 /// @title  Consent Global - DID Smart Contract
 /// @author Stephan Bothma <stephan@io.co.za>
-contract Consent_DID is Simplified_Wallet, Claim_Logger {
+contract Consent_DID is Claim_Logger, Simplified_Wallet {
 
   /// @dev   CONSTRUCTOR
   /// @param owner_pb Address of owner's account or proxy contract
