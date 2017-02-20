@@ -2,7 +2,7 @@ pragma solidity ^0.4.9;
 
 import "wallet_restricted.sol";
 
-contract Lightweight_Wallet is Restricted_Wallet {
+contract Simplified_Wallet is Restricted_Wallet {
 
   event SingleTransact(
     address owner,
