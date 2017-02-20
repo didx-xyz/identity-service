@@ -1,6 +1,6 @@
 pragma solidity ^0.4.9;
 
-import "interface_wallet";
+import "interface_wallet.sol";
 
 /// @title  Consent Global - DID Claim Logger
 /// @author Stephan Bothma <stephan@io.co.za>
