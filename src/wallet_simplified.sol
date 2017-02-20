@@ -31,7 +31,7 @@ contract Simplified_Wallet is Restricted_Wallet {
     _;
   }
 
-  function Lightweight_Wallet(
+  function Simplified_Wallet(
     address _owner
   ) {
     owner = _owner;

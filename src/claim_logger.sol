@@ -43,7 +43,7 @@ contract Claim_Logger {
       addr_1,
       addr_2,
       msg.sender,
-      msg.sender == owner || msg.sender == this
+      msg.sender == owner
     );
     return claim_ctr;
   }
