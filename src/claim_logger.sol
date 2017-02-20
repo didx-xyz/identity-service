@@ -6,8 +6,6 @@ contract Claim_Logger {
 
   uint public claim_ctr = 0;
 
-  address public owner;
-
   event Claim(
     uint    claim_id,
     uint    against,
@@ -43,7 +41,7 @@ contract Claim_Logger {
       addr_1,
       addr_2,
       msg.sender,
-      msg.sender == owner
+      isOwner(msg.sender)
     );
     return claim_ctr;
   }
