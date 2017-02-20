@@ -1,10 +1,10 @@
 pragma solidity ^0.4.9;
 
-import "wallet_simplified.sol";
+import "interface_wallet";
 
 /// @title  Consent Global - DID Claim Logger
 /// @author Stephan Bothma <stephan@io.co.za>
-contract Claim_Logger is Simplified_Wallet {
+contract Claim_Logger is wallet_interface {
 
   uint public claim_ctr = 0;
 
