@@ -21,7 +21,7 @@ contract Lightweight_Wallet is Restricted_Wallet {
     address newOwner
   );
 
-  address owner;
+  address public owner;
   address[2] public m_owners;
   uint public constant m_required = 1;
   uint public constant m_numOwners = 1;
