@@ -15,6 +15,12 @@ contract Restricted_Wallet {
     _;
   }
 
+  /// @dev Throw if message isn't being sent by owner
+  modifier onlyowner() {
+    if (msg.sender != owner) throw;
+    _;
+  }
+
   /// @param t_receiver The address this transaction is sent to
   /// @dev Throws a key, except `r_adminkey`, sends to `r_registry`
   modifier notrestricted (address t_receiver) {
