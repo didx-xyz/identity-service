@@ -1,6 +1,6 @@
 pragma solidity ^0.4.9;
 
-import "did/did.sol";
+import "did.sol";
 
 /** @title Consent DIDM Registry */
 contract DIDM_Registry {

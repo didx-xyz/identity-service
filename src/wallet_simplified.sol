@@ -1,6 +1,6 @@
 pragma solidity ^0.4.9;
 
-import "did/restricted.sol";
+import "wallet_restricted.sol";
 
 contract Lightweight_Wallet is Restricted_Wallet {
 
