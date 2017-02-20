@@ -6,6 +6,8 @@ contract Claim_Logger {
 
   uint public claim_ctr = 0;
 
+  address public owner;
+
   event Claim(
     uint    claim_id,
     uint    against,

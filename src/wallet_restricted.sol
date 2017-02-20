@@ -7,7 +7,7 @@ contract Restricted_Wallet {
   address public r_adminkey;
   address public r_registry;
 
-  address owner; // Shared with Simplified_Wallet
+  address public owner; // Shared with Simplified_Wallet
 
   /// @dev Throw if message isn't being sent by administrator
   modifier onlyadmin {
