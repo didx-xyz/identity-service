@@ -22,7 +22,7 @@ contract Restricted_Wallet {
   }
 
   /// @param t_receiver The address this transaction is sent to
-  /// @dev Throws a key, except `r_adminkey`, sends to `r_registry`
+  /// @dev Throws when a key, except `r_adminkey`, sends to `r_registry`
   modifier notrestricted (address t_receiver) {
     if ( t_receiver == r_registry
       && msg.sender != r_adminkey ) throw;
@@ -45,7 +45,7 @@ contract Restricted_Wallet {
     r_registry = registry_addr;
   }
 
-  /// @dev Event emitted when `r_admin` key is changed
+  /// @dev   Event emitted when `r_admin` key is changed
   /// @param oldAdmin Admin key that was replaced
   /// @param newAdmin Key that controls the DID's registry contents
   event AdminChanged(

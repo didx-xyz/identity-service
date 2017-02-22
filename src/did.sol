@@ -9,8 +9,8 @@ import "claim_logger.sol";
 contract Consent_DID is Claim_Logger, Simplified_Wallet {
 
   /// @dev   CONSTRUCTOR
-  /// @param owner_pb Address of owner's account or proxy contract
-  /// @param admin_pb Address of admin's account or proxy contract
+  /// @param owner_pb Address of owner (account or proxy contract)
+  /// @param admin_pb Address of admin (account or proxy contract)
   /// @param registry Address of Registry linked to this contract
   function Consent_DID (
     address owner_pb,
@@ -41,7 +41,7 @@ contract Consent_DID is Claim_Logger, Simplified_Wallet {
     onlyadmin()
     returns (bool revoked)
   {
-    return registry_interface(r_registry).revoke();
+    return registry_interface(r_registry).revoke(1, 0);
   }
 
 }
