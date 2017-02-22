@@ -15,9 +15,10 @@ contract Consent_DID is Claim_Logger, Simplified_Wallet {
   function Consent_DID (
     address owner_pb,
     address admin_pb,
+    address recovery,
     address registry
   )
-    Simplified_Wallet(owner_pb)
+    Simplified_Wallet(owner_pb, recovery)
     Restricted_Wallet(admin_pb, registry)
   { }
 
@@ -41,7 +42,7 @@ contract Consent_DID is Claim_Logger, Simplified_Wallet {
     onlyadmin()
     returns (bool revoked)
   {
-    return registry_interface(r_registry).revoke(true, 0);
+    return registry_interface(r_registry).revoke(false, 0);
   }
 
 }

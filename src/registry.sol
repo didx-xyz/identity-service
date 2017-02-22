@@ -119,27 +119,22 @@ contract DIDM_Registry {
   }
 
   /// @notice Revoke your DID on *this* Registry (without disabling wallet features)
-  /// @param revocation_is_temporary Set to `true` to temporarily revoke your DID content (you can undo this later), otherwise set this to `false` AND confirm your DID address in the next field to confirm that you require permanent revocation of your DID on this Registry.
-  /// @param else_did_to_revoke_permanently Set this to your DID address to confirm permanent revocation.
+  /// @param revocation_is_permanent Set to `false` to temporarily revoke your DID content (you can undo this later), otherwise set this to `true` AND confirm your DID address in the next field to confirm that you require permanent revocation of your DID on this Registry.
+  /// @param confirm_did_to_revoke_permanently Set this to your DID address to confirm permanent revocation.
   function revoke(
-    bool    revocation_is_temporary,
-    address else_did_to_revoke_permanently
+    bool    revocation_is_permanent,
+    address confirm_did_to_revoke_permanently
   )
     returns (bool revoked)
   {
+    // Throw for non-existant or previously revoked DIDs
     if (did_key[msg.sender] < 1) throw;
 
-    // Temporary revocation (suspension), set DDO to empty string
-    if (revocation_is_temporary) {
-      did_val[did_key[msg.sender]] = "";
+    // Permanent recovation, revoke DID (except wallet features)
+    if (revocation_is_permanent) {
 
-      // Emit event
-      RevokedDID(msg.sender, false);
-      return true;
-    }
-    else {
       // Safety catch
-      if (else_did_to_revoke_permanently != msg.sender) throw;
+      if (confirm_did_to_revoke_permanently != msg.sender) throw;
 
       // Empty the old did_val
       did_val[did_key[msg.sender]] = "";
@@ -149,6 +144,14 @@ contract DIDM_Registry {
 
       // Emit event
       RevokedDID(msg.sender, true);
+      return true;
+    }
+    // Temporary revocation (suspension), set DDO to empty string
+    else {
+      did_val[did_key[msg.sender]] = "";
+
+      // Emit event
+      RevokedDID(msg.sender, false);
       return true;
     }
   }

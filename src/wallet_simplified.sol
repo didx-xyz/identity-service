@@ -21,7 +21,17 @@ contract Simplified_Wallet is Restricted_Wallet {
     address newOwner
   );
 
+  event RecoveryKeyChanged(
+    address oldRecovery,
+    address newRecovery
+  );
+
   address public owner;
+
+  /// @dev Nominated Recovery Key
+  address public recovery;
+
+  // Backwards compatibility with Ethereum Wallet:
   address[1] public m_owners;
   uint public constant m_required = 1;
   uint public constant m_numOwners = 1;
@@ -32,11 +42,41 @@ contract Simplified_Wallet is Restricted_Wallet {
   }
 
   function Simplified_Wallet(
-    address _owner
+    address _owner,
+    address _recovery
   ) {
+    if (_owner == 0) throw;
+    if (_recovery == 0) throw;
     owner = _owner;
-    m_owners[0] = _owner; // backwards compatibility
-    /*m_owners[1] = _owner; // backwards compatibility*/
+    recovery = _recovery;
+    // backwards compatibility:
+    m_owners[1] = _owner;
+  }
+
+  /// @notice Nominate a recovery key that is able to replace the owner account in case control of the owner account is lost.
+  /// @param _recovery Recovery account address
+  function nominateRecoveryKey(
+    address _recovery
+  )
+    onlyowner()
+    returns (bool)
+  {
+    // Don't allow owner key to match recovery key
+    if (msg.sender == _recovery) throw;
+    if (_recovery == 0) throw;
+    RecoveryKeyChanged(recovery, _recovery);
+    recovery = _recovery;
+    return true;
+  }
+
+  /// @notice Replace the owner account of the Wallet and DID using the recovery key. DO NOT USE THIS TO TRANSFER OWNERSHIP BETWEEN INDIVIDUALS!
+  /// @param new_owner The account that becomes the owner of the Wallet
+  function recoverOwnership(address new_owner) returns (bool) {
+    if (msg.sender != recovery) throw;
+    if (new_owner == owner) throw;
+    OwnerChanged(owner, new_owner);
+    owner = new_owner;
+    return true;
   }
 
   function changeOwner(
@@ -47,7 +87,7 @@ contract Simplified_Wallet is Restricted_Wallet {
     external
   {
     owner = _to;
-    m_owners[0] = _to;
+    m_owners[1] = _to;
     OwnerChanged(_from, _to);
   }
 
