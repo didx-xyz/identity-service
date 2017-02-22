@@ -41,7 +41,7 @@ contract Consent_DID is Claim_Logger, Simplified_Wallet {
     onlyadmin()
     returns (bool revoked)
   {
-    return registry_interface(r_registry).revoke(1, 0);
+    return registry_interface(r_registry).revoke(true, 0);
   }
 
 }
