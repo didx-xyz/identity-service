@@ -41,6 +41,11 @@ contract Simplified_Wallet is Restricted_Wallet {
     _;
   }
 
+  modifier onlyrecovery() {
+    if (msg.sender != recovery) throw;
+    _;
+  }
+
   function Simplified_Wallet(
     address _owner,
     address _recovery
@@ -53,13 +58,14 @@ contract Simplified_Wallet is Restricted_Wallet {
     m_owners[1] = _owner;
   }
 
-  /// @notice Nominate a recovery key that is able to replace the owner account in case control of the owner account is lost.
+  /// @notice Nominate a new recovery key that is able to replace the owner account in case control of the owner account is lost. (Only owner)
   /// @param _recovery Recovery account address
+  /// @return updated Update success
   function nominateRecoveryKey(
     address _recovery
   )
     onlyowner()
-    returns (bool)
+    returns (bool updated)
   {
     // Don't allow owner key to match recovery key
     if (msg.sender == _recovery) throw;
@@ -69,10 +75,27 @@ contract Simplified_Wallet is Restricted_Wallet {
     return true;
   }
 
+  /// @notice Replace the recovery key (Only recovery key)
+  /// @param _recovery Updated recovery account
+  /// @return updated Update success
+  function updateRecoveryKey(
+    address _recovery
+  )
+    onlyrecovery()
+    returns (bool updated)
+  {
+    if (recovery == _recovery) throw;
+    RecoveryKeyChanged(recovery, _recovery);
+    recovery = _recovery;
+    return true;
+  }
+
   /// @notice Replace the owner account of the Wallet and DID using the recovery key. DO NOT USE THIS TO TRANSFER OWNERSHIP BETWEEN INDIVIDUALS!
   /// @param new_owner The account that becomes the owner of the Wallet
-  function recoverOwnership(address new_owner) returns (bool) {
-    if (msg.sender != recovery) throw;
+  function recoverOwnership(address new_owner)
+    onlyrecovery()
+    returns (bool)
+  {
     if (new_owner == owner) throw;
     OwnerChanged(owner, new_owner);
     owner = new_owner;
