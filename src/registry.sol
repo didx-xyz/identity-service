@@ -7,14 +7,14 @@ import "did.sol";
 /// @author Stephan Bothma <stephan@io.co.za>
 contract DIDM_Registry {
 
-  // Map DID address to uint (to DID content string)
+  // Map DID address to int (to DID content string)
   // This allows us to see if a DID is empty, unassigned or revoked
   // Empty DID's map to did_key > 0, unassigned to 0, revoked to -1
-  mapping (address => uint) did_key;
-  mapping (uint => string) did_val;
+  mapping (address => int) did_key;
+  mapping (int => string) did_val;
 
   // Internal DID counter, used to assign `did_key`
-  uint public did_count = 0;
+  int public did_count = 0;
 
   /// @dev Event emitted when Registry successfully spawns DID Contract
   /// @param did    Address of the DID instance that was spawned
@@ -70,7 +70,7 @@ contract DIDM_Registry {
     if (did_key[did] != 0) throw;
 
     // Increment the did_count and assign the did_index for the new DID
-    uint did_index = ++did_count;
+    int did_index = ++did_count;
 
     // Create the new did_record
     did_key[did] = did_index;
