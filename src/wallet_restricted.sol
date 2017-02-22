@@ -4,9 +4,13 @@ pragma solidity ^0.4.9;
 /// @author Stephan Bothma <stephan@io.co.za>
 contract Restricted_Wallet {
 
+  /// @notice Admin account of this Wallet
   address public r_adminkey;
+
+  /// @notice Restrict calls to this contract to `r_adminkey` only
   address public r_registry;
 
+  /// @notice Owner of this wallet
   address public owner; // Shared with Simplified_Wallet
 
   /// @dev Throw if message isn't being sent by administrator
@@ -27,6 +31,12 @@ contract Restricted_Wallet {
     if ( t_receiver == r_registry
       && msg.sender != r_adminkey ) throw;
     _;
+  }
+
+  function isAdmin(address sender)
+    returns (bool)
+  {
+    return sender == r_adminkey;
   }
 
   /// @dev   CONSTRUCTOR

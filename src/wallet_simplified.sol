@@ -22,7 +22,7 @@ contract Simplified_Wallet is Restricted_Wallet {
   );
 
   address public owner;
-  address[2] public m_owners;
+  address[1] public m_owners;
   uint public constant m_required = 1;
   uint public constant m_numOwners = 1;
 
@@ -35,7 +35,8 @@ contract Simplified_Wallet is Restricted_Wallet {
     address _owner
   ) {
     owner = _owner;
-    m_owners[1] = _owner; // backwards compatibility
+    m_owners[0] = _owner; // backwards compatibility
+    /*m_owners[1] = _owner; // backwards compatibility*/
   }
 
   function changeOwner(
@@ -46,7 +47,7 @@ contract Simplified_Wallet is Restricted_Wallet {
     external
   {
     owner = _to;
-    m_owners[1] = _to;
+    m_owners[0] = _to;
     OwnerChanged(_from, _to);
   }
 
@@ -69,7 +70,7 @@ contract Simplified_Wallet is Restricted_Wallet {
   )
     external
     notrestricted(_to)
-    onlyowner
+    onlyowner()
     returns (bytes32 _r)
   {
     SingleTransact(msg.sender, _value, _to, _data);
