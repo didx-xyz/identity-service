@@ -47,11 +47,13 @@ contract DIDM_Registry {
   /// @notice Create a self sovereign Consent DID
   /// @param  owner Account that will control the wallet features and keys
   /// @param  admin Account that can update DID content (can be same as `owner`)
+  /// @param  recovery Account that can replace the owner key
   /// @param  ddo   Initial DDO of this contract (can be updated later)
   /// @return did   Address of the newly created DID
   function create(
     address owner,
     address admin,
+    address recovery,
     string  ddo
   )
     returns (address did)
@@ -64,7 +66,7 @@ contract DIDM_Registry {
     if (admin == 0) throw;
 
     // Spin up the did contract, passing `this` as `registry` value
-    did = new Consent_DID(owner, admin, this);
+    did = new Consent_DID(owner, admin, recovery, this);
 
     // Edge case where the generated consent did is already registered (untestable), but will prevent the current DDO from being overwritten
     if (did_key[did] != 0) throw;

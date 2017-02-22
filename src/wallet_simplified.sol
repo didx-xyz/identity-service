@@ -32,7 +32,7 @@ contract Simplified_Wallet is Restricted_Wallet {
   address public recovery;
 
   // Backwards compatibility with Ethereum Wallet:
-  address[1] public m_owners;
+  address[2] public m_owners;
   uint public constant m_required = 1;
   uint public constant m_numOwners = 1;
 

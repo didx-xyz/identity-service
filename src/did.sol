@@ -11,6 +11,7 @@ contract Consent_DID is Claim_Logger, Simplified_Wallet {
   /// @dev   CONSTRUCTOR
   /// @param owner_pb Address of owner (account or proxy contract)
   /// @param admin_pb Address of admin (account or proxy contract)
+  /// @param recovery Address of recovery key (account or proxy contract) - Can be used to replace owner_pb
   /// @param registry Address of Registry linked to this contract
   function Consent_DID (
     address owner_pb,
