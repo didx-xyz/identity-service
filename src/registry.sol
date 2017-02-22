@@ -123,7 +123,7 @@ contract DIDM_Registry {
   /// @param else_did_to_revoke_permanently Set this to your DID address to confirm permanent revocation.
   function revoke(
     bool    revocation_is_temporary,
-    address else_did_to_revoke_permanently,
+    address else_did_to_revoke_permanently
   )
     returns (bool revoked)
   {
