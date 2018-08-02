@@ -2,3 +2,4 @@ src/.dapple/
 src/.gitignore
 npm-debug.log
 src/.dapple/
+/out
