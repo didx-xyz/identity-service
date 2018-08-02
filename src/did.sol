@@ -1,8 +1,8 @@
 pragma solidity ^0.4.9;
 
-import "interface_registry.sol";
-import "wallet_simplified.sol";
-import "claim_logger.sol";
+import "./interface_registry.sol";
+import "./wallet_simplified.sol";
+import "./claim_logger.sol";
 
 /// @title  Consent Global - DID Smart Contract
 /// @author Stephan Bothma <stephan@io.co.za>

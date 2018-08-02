@@ -3,3 +3,5 @@ src/.gitignore
 npm-debug.log
 src/.dapple/
 /out
+node
+node_modules
