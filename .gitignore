@@ -5,3 +5,5 @@ src/.dapple/
 /out
 node
 node_modules/
+node_modules
+node)modules/*
