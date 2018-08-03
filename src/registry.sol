@@ -1,7 +1,7 @@
 pragma solidity ^0.4.9;
 
 // Import Consent_DID contract
-import "did.sol";
+import "./did.sol";
 
 /// @title  Consent Global - DID Registry Contract
 /// @author Stephan Bothma <stephan@io.co.za>

@@ -16,9 +16,9 @@
 pragma solidity ^0.4.9;
 
 import "./multisig.sol";
-import "wallet/multiowned.sol";
-import "wallet/daylimit.sol";
-import "did/restricted.sol";
+import "./multiowned.sol";
+import "./daylimit.sol";
+import "../wallet_restricted.sol";
 
 // Usage:
 // ——————

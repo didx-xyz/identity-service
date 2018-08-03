@@ -1,6 +1,6 @@
 pragma solidity ^0.4.9;
 
-import "wallet_restricted.sol";
+import "./wallet_restricted.sol";
 
 contract Simplified_Wallet is Restricted_Wallet {
 
